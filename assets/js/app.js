@@ -25,11 +25,10 @@ document.getElementById("formulario").addEventListener("submit", function(e){
 //Función para elimitar tweets
 document.getElementById("lista-tweets").addEventListener("click", function(e){
    e.preventDefault();
-
    if(e.target.className === "borrar-tweet"){
       e.target.parentElement.remove();
+      borrarTweetsLocalStorage(e.target.parentElement.innerText.toString());
    }
-
 });
 
 //Función para agregar tweets a Local Storage
@@ -72,3 +71,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
       listaTweets.appendChild(lista);
    })
 });
+
+//Función para eliminar los tweets del local storage
+function borrarTweetsLocalStorage(tweet){
+   let tweets, tweetBorrar;
+   tweetBorrar = tweet.substring(0, tweet.length - 1);//Elimina la "X" de la cadena de caracteres
+   tweets = obtenerTweetsLocalStorage();
+   tweets.forEach(function(tweet, index){             //Compara el tweet a borrar con el tweet actual
+      if(tweetBorrar === tweet){
+         tweets.splice(index, 1);                     //Elimina el tweet           
+
+      }
+   });
+   localStorage.setItem("tweets", JSON.stringify(tweets));
+}
